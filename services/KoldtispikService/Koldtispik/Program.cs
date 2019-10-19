@@ -38,22 +38,25 @@ namespace Koldtispik
                 int secondLastPrice = marketData[numElements-2];
                 int thirdLastPrice = marketData[numElements-3];
                 int fourthLastPrice = marketData[numElements-4];
+                bool hasBrought;
                 
                 //int sum = Sum(marketData);
                 int Trend = (lastPrice-secondLastPrice + secondLastPrice-thirdLastPrice + thirdLastPrice - fourthLastPrice)/3;
                 
-                if (0>Trend )
+                if (0>Trend && !hasBrought)
                 {
                     // The price has risen from the first to the last data point, 
                     // so the trend is rising - buy!
                     Buy();
                     threshold = lastPrice;
+                    hasBrought = true;
                 }
                 else if (Trend>0 && lastPrice > threshold)
                 {
                     // The price has fallen from the first to the last data point, 
                     // so the trend is falling - sell!
                     Sell();
+                    hasBrought = false;
                 }
             }
         }
